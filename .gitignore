@@ -1,0 +1,13 @@
+
+node_modules/
+test/output/
+dist/
+npm-debug.log
+package-lock.json
+yarn-error.log
+src/config/env
+migrations
+core.*
+.DS_Store
+logs
+backend/config/env
