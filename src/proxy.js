@@ -17,7 +17,8 @@ module.exports = class Proxy {
 
   after(req, proxyHeaders) {
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    let headerAuthKey =  proxyHeaders.headers["auth-key"]?.split("|");
+    let headerAuthKey = [];
+    if (headerAuthKey.headers && headerAuthKey.headers["auth-key"]) proxyHeaders.headers["auth-key"].split("|");
     let user = this.users.findOrCreate(ip);
 
     user.leave();

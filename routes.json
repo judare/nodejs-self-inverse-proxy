@@ -1,3 +1,9 @@
 {
-  "/test": { "guard": true }
+  "/api/v1/payments/resource/generate": { "guard": true },
+  "/api/v1/transactions/status": { "guard": true },
+  "/api/v1/payments/confirm/daviplata/button": { "guard": true },
+  "/api/v1/payments/method/list": { "guard": true },
+  "/api/v1/payments/get/features": { "guard": true },
+  "/api/v1/payments/get/info": { "guard": true },
+  "/api/v1/payments/resource/get/web-page/checkout": { "guard": true }
 }
