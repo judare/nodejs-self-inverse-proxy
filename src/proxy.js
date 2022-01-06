@@ -17,7 +17,7 @@ module.exports = class Proxy {
 
   after(req, proxyHeaders) {
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    let headerAuthKey = [];
+    let headerAuthKey = [ip, true];
     if (headerAuthKey.headers && headerAuthKey.headers["auth-key"]) proxyHeaders.headers["auth-key"].split("|");
     let user = this.users.findOrCreate(ip);
 
@@ -30,16 +30,18 @@ module.exports = class Proxy {
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     let user = this.users.findOrCreate(ip);
     if (user.isBlocked()) {
-      this.sendBadResponse(res, { status: 401, data: { message: "El usuario se encuentra bloqueado" }});
+      this.sendBadResponse(res, { status: 401, data: { message: "El usuario se encuentra bloqueado", expiresAt: user.blockedUntil }});
       return false;
     }
 
     let route = routes[req.path];
     if (route && route.guard) {
       if (user.guardSimultaneous && this.users.isSimultaneous(user)) {
-        this.sendBadResponse(res, { status: 403, data: { message: "La transacción ya se esta procesando" }});
+        this.sendBadResponse(res, { status: 403, data: { message: "La transacción ya se está procesando" }});
         return false;
       }
+
+      user.setProcessing();
     }
 
     user.visit(req.path);

@@ -15,6 +15,7 @@ module.exports = class User {
   }
 
   setKey(key) {
+    console.log(key[0], !!key[1])
     this.key = key[0];
     this.guardSimultaneous = !!key[1];
   }
@@ -39,11 +40,14 @@ module.exports = class User {
     this.tries++;
     this.lastVisit = Date.now();
     this.lastRoute = route;
-    this.processing = true;
   }
 
   flushTries() {
     this.tries = 0;
+  }
+
+  setProcessing() {
+    this.processing = true;
   }
 
   leave() {
